@@ -1,0 +1,5 @@
+<header>
+  <h1>{{ title }}</h1>
+  <button type="button" (click)="rename()">Renommer</button>
+  <button type="button" [disabled]="!canDelete" (click)="delete()">Supprimer</button>
+</header>
