@@ -39,6 +39,10 @@ describe('Task', () => {
     ]);
     expect(fixture.nativeElement.querySelector('.empty')).toBeNull();
     expect(deleteButton.disabled).toBe(true);
+    expect(fixture.nativeElement.querySelector('p:not(.empty)')?.textContent?.trim()).toBe(
+      '3 tâche(s)',
+    );
+    expect(component.count()).toBe(3);
   });
 
   it('should rename the title and enable deletion', () => {
@@ -96,5 +100,28 @@ describe('Task', () => {
     ) as HTMLButtonElement;
     expect(deleteButton.disabled).toBe(true);
     expect(clearButton.disabled).toBe(true);
+  });
+
+  it('should add a task and update the count when the add button is clicked', () => {
+    fixture.detectChanges();
+
+    const addButton = fixture.nativeElement.querySelector(
+      '.add-button',
+    ) as HTMLButtonElement;
+    addButton.click();
+    fixture.detectChanges();
+
+    const items = fixture.nativeElement.querySelectorAll('li');
+    expect(items).toHaveLength(4);
+    expect(component.tasks()).toHaveLength(4);
+    expect(component.count()).toBe(4);
+    expect(component.tasks()[3]).toEqual({
+      id: 4,
+      title: 'Nouvelle tâche',
+      dueDate: '2026-11-16T00:00:00',
+    });
+    expect(fixture.nativeElement.querySelector('p:not(.empty)')?.textContent?.trim()).toBe(
+      '4 tâche(s)',
+    );
   });
 });

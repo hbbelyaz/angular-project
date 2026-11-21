@@ -1,5 +1,6 @@
 <section class="task-panel" aria-labelledby="task-title">
-  <h1 id="task-title">{{ title }}</h1>
+  <h1 id="task-title">{{ title() }}</h1>
+  <p>{{ count() }} tâche(s)</p>
 
   <div class="task-actions">
     <button class="rename-button" type="button" (click)="rename()">Renommer</button>
@@ -11,13 +12,14 @@
     >
       Supprimer
     </button>
+    <button class="add-button" type="button" (click)="addTask()">Ajouter une tâche</button>
   </div>
 
-  @if (tasks.length === 0) {
+  @if (tasks().length === 0) {
     <p class="empty">Aucune tâche pour l'instant</p>
   } @else {
     <ul>
-      @for (task of tasks; track task.id) {
+      @for (task of tasks(); track task.id) {
         <li>
           <span class="task-name">{{ $index + 1 }}. {{ task.title | uppercase }}</span>
           <span class="due-date">Échéance : {{ task.dueDate | date:'dd/MM/yyyy' }}</span>
@@ -29,7 +31,7 @@
   <button
     class="clear-button"
     type="button"
-    [disabled]="tasks.length === 0"
+    [disabled]="tasks().length === 0"
     (click)="clearTasks()"
   >
     Vider la liste
