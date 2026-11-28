@@ -1,5 +1,29 @@
-<header>
-  <h1>{{ title }}</h1>
-  <button type="button" (click)="rename()">Renommer</button>
-  <button type="button" [disabled]="!canDelete" (click)="delete()">Supprimer</button>
+<header class="site-header">
+  <a class="brand" routerLink="/" aria-label="Accueil">
+    <span class="brand-mark">S</span>
+    <span>Shop</span>
+  </a>
+
+  <nav aria-label="Navigation principale">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Accueil</a>
+    <a routerLink="/catalogue" routerLinkActive="active">Catalogue</a>
+  </nav>
+
+  <div class="cart-area">
+    <div class="cart-summary" aria-label="Résumé du panier">
+      <span class="cart-icon" aria-hidden="true">🛒</span>
+      <span>
+        <strong>{{ totalQuantity() }}</strong>
+        <small>{{ formatMad(totalPrice()) }}</small>
+      </span>
+    </div>
+    <button
+      class="clear-cart"
+      type="button"
+      [disabled]="totalQuantity() === 0"
+      (click)="viderPanier()"
+    >
+      Vider le panier
+    </button>
+  </div>
 </header>

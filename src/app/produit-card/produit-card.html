@@ -1,0 +1,14 @@
+<article class="product-card">
+  <div class="product-visual" aria-hidden="true">
+    <span>{{ produit().icone ?? 'SH' }}</span>
+  </div>
+  <div class="product-heading">
+    <ng-content select="[product-badge]" />
+    <h2>{{ produit().nom }}</h2>
+  </div>
+  <p class="description">{{ produit().description }}</p>
+  <div class="product-footer">
+    <strong>{{ formatMad(produit().prix) }}</strong>
+    <button type="button" (click)="ajouter.emit(produit())">Ajouter au panier</button>
+  </div>
+</article>

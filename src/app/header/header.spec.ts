@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideRouter } from '@angular/router';
+import { ShopCart } from '../services/shop-cart';
+import type { Produit } from '../produit.model';
 import { Header } from './header';
 
 describe('Header', () => {
@@ -8,7 +10,8 @@ describe('Header', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Header]
+      imports: [Header],
+      providers: [provideRouter([])],
     })
     .compileComponents();
 
@@ -17,52 +20,31 @@ describe('Header', () => {
     await fixture.whenStable();
   });
 
-  it('should display the title and disable delete while canDelete is false', () => {
+  it('should display the shop brand and cart summary', () => {
     fixture.detectChanges();
-
-    const heading = fixture.nativeElement.querySelector('h1') as HTMLHeadingElement;
-    const deleteButton = fixture.nativeElement.querySelector(
-      'button:last-child',
-    ) as HTMLButtonElement;
-
-    expect(heading.textContent).toBe('TaskFlow');
-    expect(deleteButton.disabled).toBe(true);
+    expect(fixture.nativeElement.textContent).toContain('Shop');
+    expect(fixture.nativeElement.textContent).toContain('0 MAD');
   });
 
-  it('should rename the title and enable delete when the rename button is clicked', () => {
+  it('should empty the cart when the clear button is clicked', () => {
+    const cart = TestBed.inject(ShopCart);
+    const produit: Produit = {
+      id: 1,
+      nom: 'Huile moteur',
+      description: 'Huile synthétique',
+      prix: 420,
+      categorie: 'Entretien',
+    };
+    cart.add(produit);
     fixture.detectChanges();
 
-    const renameButton = fixture.nativeElement.querySelector(
-      'button:first-of-type',
-    ) as HTMLButtonElement;
-    const deleteButton = fixture.nativeElement.querySelector(
-      'button:last-child',
-    ) as HTMLButtonElement;
-    renameButton.click();
+    const clearButton = fixture.nativeElement.querySelector('.clear-cart') as HTMLButtonElement;
+    expect(clearButton.disabled).toBe(false);
+    clearButton.click();
     fixture.detectChanges();
 
-    const heading = fixture.nativeElement.querySelector('h1') as HTMLHeadingElement;
-    expect(heading.textContent).toBe('Mes tâches');
-    expect(deleteButton.disabled).toBe(false);
-  });
-
-  it('should clear the title and disable delete after clicking the delete button', () => {
-    fixture.detectChanges();
-
-    const renameButton = fixture.nativeElement.querySelector(
-      'button:first-of-type',
-    ) as HTMLButtonElement;
-    const deleteButton = fixture.nativeElement.querySelector(
-      'button:last-child',
-    ) as HTMLButtonElement;
-
-    renameButton.click();
-    fixture.detectChanges();
-    deleteButton.click();
-    fixture.detectChanges();
-
-    const heading = fixture.nativeElement.querySelector('h1') as HTMLHeadingElement;
-    expect(heading.textContent).toBe('');
-    expect(deleteButton.disabled).toBe(true);
+    expect(cart.totalQuantity()).toBe(0);
+    expect(fixture.nativeElement.textContent).toContain('0,00 MAD');
+    expect(clearButton.disabled).toBe(true);
   });
 });

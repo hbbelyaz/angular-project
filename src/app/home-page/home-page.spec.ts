@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { HomePage } from './home-page';
 
@@ -8,9 +9,9 @@ describe('HomePage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomePage]
-    })
-    .compileComponents();
+      imports: [HomePage],
+      providers: [provideRouter([])],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HomePage);
     component = fixture.componentInstance;
@@ -21,8 +22,8 @@ describe('HomePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the welcome heading', () => {
+  it('should render the catalogue heading', () => {
     const heading = fixture.nativeElement.querySelector('h1') as HTMLHeadingElement;
-    expect(heading.textContent).toContain('Bienvenue sur votre page');
+    expect(heading.textContent).toContain('Pièces & accessoires');
   });
 });

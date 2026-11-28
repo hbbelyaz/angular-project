@@ -1,23 +1,25 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ShopCart } from '../services/shop-cart';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.html',
   styleUrl: './header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
-  title = 'TaskFlow';
-  canDelete = false;
+  private readonly cart = inject(ShopCart);
 
-  rename(): void {
-    this.title = 'Mes tâches';
-    this.canDelete = true;
+  readonly totalQuantity = this.cart.totalQuantity;
+  readonly totalPrice = this.cart.totalPrice;
+
+  formatMad(value: number): string {
+    return `${value.toFixed(2).replace('.', ',')} MAD`;
   }
 
-  delete(): void {
-    this.title = '';
-    this.canDelete = false;
+  viderPanier(): void {
+    this.cart.clear();
   }
 }

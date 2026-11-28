@@ -1,0 +1,32 @@
+<main class="catalogue-page">
+  <header class="page-heading">
+    <div>
+      <p class="eyebrow">Shop automobile</p>
+      <h1>Pièces & accessoires</h1>
+    </div>
+    <label class="search-field">
+      <span>Rechercher un produit</span>
+      <input
+        type="search"
+        name="search"
+        placeholder="Nom ou catégorie"
+        [(ngModel)]="searchValue"
+      />
+    </label>
+  </header>
+
+  <section class="products-section" aria-label="Produits disponibles">
+    @if (produitsFiltres().length === 0) {
+      <p class="empty-state">Aucun produit ne correspond à cette recherche.</p>
+    } @else {
+      <div class="product-grid">
+        @for (produit of produitsFiltres(); track produit.id) {
+          <app-produit-card [produit]="produit" (ajouter)="ajouterAuPanier($event)">
+            <span class="product-badge" product-badge>{{ produit.categorie }}</span>
+          </app-produit-card>
+        }
+      </div>
+    }
+  </section>
+
+</main>

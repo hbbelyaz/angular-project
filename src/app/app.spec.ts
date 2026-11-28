@@ -18,7 +18,7 @@ describe('App', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Bienvenue sur votre page');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Pièces & accessoires');
   });
 
   it('should display the task list at the tasks route', async () => {
